@@ -53,6 +53,12 @@ class Task(Base):
     def __repr__(self):
         return f'<Task {self.title}>'
 
+
+@app.route('/')
+def index():
+    return "F"
+
+
 # API Routes
 @app.route('/api/tasks', methods=['POST'])
 def create_task():
