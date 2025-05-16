@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-import uuid
 from datetime import datetime
 from enum import Enum
+import uuid
 
 from extensions import db
-from wsgi import db
 
 
 app = Flask(__name__)
