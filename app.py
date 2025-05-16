@@ -4,9 +4,10 @@ import uuid
 from datetime import datetime
 from enum import Enum
 
+from wsgi import db
+
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
 
 
 # Base model for other database tables to inherit
