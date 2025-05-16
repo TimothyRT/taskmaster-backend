@@ -1,25 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import uuid
-import os
 from datetime import datetime
 from enum import Enum
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 app = Flask(__name__)
 
-# Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{username}:{password}@{host}/{db_name}'.format(
-    username=os.getenv('MYSQL_USER'),
-    password=os.getenv('MYSQL_PASSWORD'),
-    host=os.getenv('MYSQL_HOST'),
-    db_name=os.getenv('MYSQL_DB')
-)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.urandom(24)
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
