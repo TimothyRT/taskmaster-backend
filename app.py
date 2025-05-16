@@ -5,6 +5,7 @@ from datetime import datetime
 from enum import Enum
 
 app = Flask(__name__)
+db = SQLAlchemy(app)
 
 # Base model for other database tables to inherit
 class Base(db.Model):
@@ -38,7 +39,7 @@ class Task(Base):
 
 @app.route('/')
 def index():
-    return "F"
+    return "Hello world!"
 
 
 # API Routes
@@ -67,9 +68,9 @@ def create_task():
     }, 201
 
 # Error Handlers
-# @app.errorhandler(404)
-# def page_not_found(e):
-#     return render_template('404.html'), 404
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
