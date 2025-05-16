@@ -6,6 +6,7 @@ from enum import Enum
 
 
 app = Flask(__name__)
+db = SQLAlchemy(app)
 
 
 # Base model for other database tables to inherit
