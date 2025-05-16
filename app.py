@@ -37,6 +37,12 @@ class Task(Base):
         return f'<Task {self.title}>'
 
 
+# Error Handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 @app.route('/')
 def index():
     return "Hello world!"
@@ -47,15 +53,18 @@ def index():
 def create_task():
     data = request.get_json()
     
-    new_task = Task(
-        title=data['title'],
-        description=data.get('description'),
-        category=data.get('category', TaskCategory.REGULAR),
-        status=TaskStatus.ACTIVE
-    )
-    
-    db.session.add(new_task)
-    db.session.commit()
+    try:
+        new_task = Task(
+            title=data['title'],
+            description=data.get('description'),
+            category=data.get('category', TaskCategory.REGULAR),
+            status=TaskStatus.ACTIVE
+        )
+        
+        db.session.add(new_task)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
     return {
         'id': new_task.id,
@@ -67,10 +76,6 @@ def create_task():
         'created_at': new_task.created_at.isoformat()
     }, 201
 
-# Error Handlers
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
