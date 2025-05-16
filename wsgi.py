@@ -16,3 +16,8 @@ app.config['SECRET_KEY'] = os.urandom(24)
 
 db.init_app(app)  # Important: bind db to the app
 application = app
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+    

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from datetime import datetime
 from enum import Enum
 import uuid
@@ -53,31 +53,30 @@ def index():
 # API Routes
 @app.route('/api/tasks', methods=['POST'])
 def create_task():
-    return "FIA"
-    # data = request.get_json()
+    data = request.get_json(force=True)
     
-    # try:
-    #     new_task = Task(
-    #         title=data['title'],
-    #         description=data.get('description'),
-    #         category=data.get('category', TaskCategory.REGULAR),
-    #         status=TaskStatus.ACTIVE
-    #     )
+    try:
+        new_task = Task(
+            title=data['title'],
+            description=data.get('description'),
+            category=data.get('category', TaskCategory.REGULAR),
+            status=TaskStatus.ACTIVE
+        )
         
-    #     db.session.add(new_task)
-    #     db.session.commit()
-    # except Exception as e:
-    #     return jsonify({'error': str(e)}), 500
+        db.session.add(new_task)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
-    # return {
-    #     'id': new_task.id,
-    #     'title': new_task.title,
-    #     'description': new_task.description,
-    #     'category': new_task.category.value,
-    #     'status': new_task.status.value,
-    #     'last_updated': new_task.last_updated.isoformat(),
-    #     'created_at': new_task.created_at.isoformat()
-    # }, 201
+    return {
+        'id': new_task.id,
+        'title': new_task.title,
+        'description': new_task.description,
+        'category': new_task.category.value,
+        'status': new_task.status.value,
+        'last_updated': new_task.last_updated.isoformat(),
+        'created_at': new_task.created_at.isoformat()
+    }, 201
 
 
 if __name__ == '__main__':
